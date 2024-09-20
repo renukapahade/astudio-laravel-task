@@ -40,4 +40,16 @@ class User extends Authenticatable
             'password' => 'hashed',
         ];
     }
+
+    // Projects relationship: Many-to-Many
+    public function projects()
+    {
+        return $this->belongsToMany(Project::class);
+    }
+
+    // Timesheets relationship: One-to-Many
+    public function timesheets()
+    {
+        return $this->hasMany(Timesheet::class);
+    }
 }
