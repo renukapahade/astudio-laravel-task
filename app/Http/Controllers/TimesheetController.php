@@ -24,9 +24,34 @@ class TimesheetController
     }
 
     // Get all timesheets
-    public function index()
+    public function index(Request $request)
     {
-        $timesheets = Timesheet::all();
+        $query = Timesheet::query(); // Initialize the query for the Timesheet model
+
+        // Apply filters only if they exist in the request
+        if ($request->has('task_name')) {
+            $query->where('task_name', 'LIKE', '%' . $request->input('task_name') . '%'); // Partial matching
+        }
+
+        if ($request->has('date')) {
+            $query->where('date', $request->input('date'));
+        }
+
+        if ($request->has('hours')) {
+            $query->where('hours', $request->input('hours'));
+        }
+
+        if ($request->has('user_id')) {
+            $query->where('user_id', $request->input('user_id'));
+        }
+
+        if ($request->has('project_id')) {
+            $query->where('project_id', $request->input('project_id'));
+        }
+
+        // Execute the query and get the results
+        $timesheets = $query->get();
+
         return response()->json($timesheets);
     }
 

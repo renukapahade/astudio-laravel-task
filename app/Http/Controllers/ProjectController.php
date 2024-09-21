@@ -25,7 +25,27 @@ class ProjectController
     // Get all projects
     public function index(Request $request)
     {
-        $projects = Project::all();
+
+        $query = Project::query(); // Initialize the query for the Project model
+
+        // Apply filters only if they exist in the request
+        if ($request->has('name')) {
+            $query->where('name', $request->input('name'));
+        }
+
+        if ($request->has('status')) {
+            $query->where('status', $request->input('status'));
+        }
+
+        if ($request->has('department')) {
+            $query->where('department', $request->input('department'));
+        }
+
+        // We can add other filters as needed, always chaining with 'where'
+
+        // Execute the query
+        $projects = $query->get();
+
         return response()->json($projects);
     }
 
