@@ -3,9 +3,8 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\Models\Project;
 
-class ProjectController
+class UserController
 {
     /**
      * Display a listing of the resource.
@@ -26,7 +25,7 @@ class ProjectController
     /**
      * Display the specified resource.
      */
-    public function show(Project $project)
+    public function show($timesheet)
     {
         //
     }
@@ -34,7 +33,7 @@ class ProjectController
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, Project $project)
+    public function update(Request $request, $timesheet)
     {
         //
     }
@@ -42,7 +41,7 @@ class ProjectController
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Project $project)
+    public function destroy($timesheet)
     {
         //
     }

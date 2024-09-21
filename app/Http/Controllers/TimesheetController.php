@@ -2,11 +2,10 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Requests\StoreTimesheetRequest;
-use App\Http\Requests\UpdateTimesheetRequest;
+use Illuminate\Http\Request;
 use App\Models\Timesheet;
 
-class TimesheetController extends Controller
+class TimesheetController
 {
     /**
      * Display a listing of the resource.
@@ -19,7 +18,7 @@ class TimesheetController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(StoreTimesheetRequest $request)
+    public function store(Request $request)
     {
         //
     }
@@ -35,7 +34,7 @@ class TimesheetController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(UpdateTimesheetRequest $request, Timesheet $timesheet)
+    public function update(Request $request, Timesheet $timesheet)
     {
         //
     }
