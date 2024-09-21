@@ -42,10 +42,10 @@ class User extends Authenticatable
         ];
     }
 
-    // Projects relationship: Many-to-Many
+    // Define many-to-many relationship with Project through Timesheet
     public function projects()
     {
-        return $this->belongsToMany(Project::class);
+        return $this->hasManyThrough(Project::class, Timesheet::class);
     }
 
     // Timesheets relationship: One-to-Many

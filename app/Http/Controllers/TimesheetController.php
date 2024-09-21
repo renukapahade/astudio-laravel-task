@@ -19,6 +19,7 @@ class TimesheetController
         ]);
 
         $timesheet = Timesheet::create($validated);
+
         return response()->json(['message' => 'Timesheet logged successfully', 'timesheet' => $timesheet]);
     }
 

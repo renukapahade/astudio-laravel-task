@@ -11,13 +11,13 @@ class Project extends Model
 
     protected $fillable = ['name', 'department', 'start_date', 'end_date', 'status'];
 
-    // Users relationship: Many-to-Many
+    // Define many-to-many relationship with User through Timesheet
     public function users()
     {
-        return $this->belongsToMany(User::class);
+        return $this->hasManyThrough(User::class, Timesheet::class);
     }
 
-    // Timesheets relationship: One-to-Many
+    // Define one-to-many relationship with Timesheet
     public function timesheets()
     {
         return $this->hasMany(Timesheet::class);
