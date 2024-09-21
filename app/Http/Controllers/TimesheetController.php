@@ -2,48 +2,68 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
 use App\Models\Timesheet;
+use Illuminate\Http\Request;
 
 class TimesheetController
 {
-    /**
-     * Display a listing of the resource.
-     */
-    public function index()
-    {
-        //
-    }
-
-    /**
-     * Store a newly created resource in storage.
-     */
+    // Store a new timesheet
     public function store(Request $request)
     {
-        //
+        $validated = $request->validate([
+            'task_name' => 'required|string|max:255',
+            'date' => 'required|date',
+            'hours' => 'required|integer',
+            'user_id' => 'required|exists:users,id',
+            'project_id' => 'required|exists:projects,id',
+        ]);
+
+        $timesheet = Timesheet::create($validated);
+        return response()->json(['message' => 'Timesheet logged successfully', 'timesheet' => $timesheet]);
     }
 
-    /**
-     * Display the specified resource.
-     */
-    public function show(Timesheet $timesheet)
+    // Get all timesheets
+    public function index()
     {
-        //
+        $timesheets = Timesheet::all();
+        return response()->json($timesheets);
     }
 
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(Request $request, Timesheet $timesheet)
+    // Get a specific timesheet by ID
+    public function show($id)
     {
-        //
+        $timesheet = Timesheet::find($id);
+
+        if (!$timesheet) {
+            return response()->json(['error' => 'Timesheet not found'], 404);
+        }
+
+        return response()->json($timesheet);
     }
 
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(Timesheet $timesheet)
+    // Update a timesheet
+    public function update(Request $request)
     {
-        //
+        $timesheet = Timesheet::find($request->id);
+
+        if (!$timesheet) {
+            return response()->json(['error' => 'Timesheet not found'], 404);
+        }
+
+        $timesheet->update($request->all());
+        return response()->json(['message' => 'Timesheet updated successfully', 'timesheet' => $timesheet]);
+    }
+
+    // Delete a timesheet
+    public function destroy(Request $request)
+    {
+        $timesheet = Timesheet::find($request->id);
+
+        if (!$timesheet) {
+            return response()->json(['error' => 'Timesheet not found'], 404);
+        }
+
+        $timesheet->delete();
+        return response()->json(['message' => 'Timesheet deleted successfully']);
     }
 }

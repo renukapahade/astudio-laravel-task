@@ -2,47 +2,83 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\User;
 use Illuminate\Http\Request;
 
 class UserController
 {
-    /**
-     * Display a listing of the resource.
-     */
-    public function index()
+    // Get all users with filtering
+    public function index(Request $request)
     {
-        //
+        $query = User::query();
+
+        if ($request->has('first_name')) {
+            $query->where('first_name', $request->first_name);
+        }
+        if ($request->has('gender')) {
+            $query->where('gender', $request->gender);
+        }
+        if ($request->has('date_of_birth')) {
+            $query->where('date_of_birth', $request->date_of_birth);
+        }
+
+        $users = $query->get();
+        return response()->json($users);
     }
 
-    /**
-     * Store a newly created resource in storage.
-     */
+    // Store a new user
     public function store(Request $request)
     {
-        //
+        $validated = $request->validate([
+            'first_name' => 'required|string|max:255',
+            'last_name' => 'required|string|max:255',
+            'date_of_birth' => 'required|date',
+            'gender' => 'required|in:male,female',
+            'email' => 'required|string|email|max:255|unique:users',
+            'password' => 'required|string|min:8',
+        ]);
+
+        $user = User::create($validated);
+        return response()->json(['message' => 'User created successfully', 'user' => $user]);
     }
 
-    /**
-     * Display the specified resource.
-     */
-    public function show($timesheet)
+    // Get a specific user by ID
+    public function show($id)
     {
-        //
+        $user = User::find($id);
+
+        if (!$user) {
+            return response()->json(['error' => 'User not found'], 404);
+        }
+
+        return response()->json($user);
     }
 
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(Request $request, $timesheet)
+    // Update a user
+    public function update(Request $request)
     {
-        //
+        $user = User::find($request->id);
+
+        if (!$user) {
+            return response()->json(['error' => 'User not found'], 404);
+        }
+
+        $user->update($request->all());
+        return response()->json(['message' => 'User updated successfully', 'user' => $user]);
     }
 
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy($timesheet)
+    // Delete a user and their related timesheets
+    public function destroy(Request $request)
     {
-        //
+        $user = User::find($request->id);
+
+        if (!$user) {
+            return response()->json(['error' => 'User not found'], 404);
+        }
+
+        // $user->timesheets()->delete();  // Delete related timesheets
+        $user->delete();
+
+        return response()->json(['message' => 'User deleted successfully']);
     }
 }
