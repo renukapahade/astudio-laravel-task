@@ -30,7 +30,7 @@ This project is a RESTful API built using Laravel, designed to manage users, pro
 
    ```bash
    git clone https://github.com/renukapahade/astudio-laravel-task.git
-   cd your-repo-name
+   cd astudio-laravel-task
 
 2. **Install Dependencies**:
     ```bash
