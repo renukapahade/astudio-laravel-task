@@ -41,8 +41,6 @@ class ProjectController
             $query->where('department', $request->input('department'));
         }
 
-        // We can add other filters as needed, always chaining with 'where'
-
         // Execute the query
         $projects = $query->get();
 
@@ -83,7 +81,6 @@ class ProjectController
             return response()->json(['error' => 'Project not found'], 404);
         }
 
-        $project->timesheets()->delete();  // Delete related timesheets
         $project->delete();
 
         return response()->json(['message' => 'Project deleted successfully']);

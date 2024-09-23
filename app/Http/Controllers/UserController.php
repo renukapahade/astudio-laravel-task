@@ -76,9 +76,7 @@ class UserController
             return response()->json(['error' => 'User not found'], 404);
         }
 
-        // $user->timesheets()->delete();  // Delete related timesheets
         $user->delete();
-
         return response()->json(['message' => 'User deleted successfully']);
     }
 }

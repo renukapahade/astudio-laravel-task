@@ -74,6 +74,7 @@ This project is a RESTful API built using Laravel, designed to manage users, pro
 **Filtering (requires auth token)**
 You can filter users and projects by various attributes. For example, to filter users:
 - GET /api/users?first_name=John&gender=male&date_of_birth=1990-01-01
+- GET /api/projects?name=Project%20Beta&status=completed&department=Design
 
 ## Database
 A SQL dump of the database structure is provided in database.sql. You can import it into your SQL database.
